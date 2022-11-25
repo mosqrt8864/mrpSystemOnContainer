@@ -1,3 +1,5 @@
+using LayeredArchitecture.Repositories.Models;
+
 namespace LayeredArchitecture.Repositories.interfaces;
 
 public interface IPartNumberRepository

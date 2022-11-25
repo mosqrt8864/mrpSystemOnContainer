@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using LayeredArchitecture.Repositories.Models;
 namespace LayeredArchitecture.Repositories;
 
