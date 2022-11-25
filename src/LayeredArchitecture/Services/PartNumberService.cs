@@ -19,7 +19,7 @@ public class PartNumberService : IPartNumberService
     {
         // business logic
 
-        // automappet bo to po
+        // bo to po
         var partNumberPO = _mapper.Map<PartNumber>(partNumber);
         await _reposiory.Add(partNumberPO);
         return true;
@@ -27,6 +27,7 @@ public class PartNumberService : IPartNumberService
     public async Task<PartNumberBo> GetPartNumber(string id)
     {
         var partNumber = await _reposiory.GetAsync(id);
+        // bo to po
         var partNumberBo = _mapper.Map<PartNumberBo>(partNumber);
         return partNumberBo;
     }
@@ -38,5 +39,14 @@ public class PartNumberService : IPartNumberService
         partNumberPo.Spec = partNumber.Spec;
         await _reposiory.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<PartNumberListBo> GetPartNumberList(int pageSize,int pageNumber)
+    {
+        var items = await _reposiory.GetListAsync(pageSize,pageNumber);
+        var count = await _reposiory.GetCountAsync();
+        // bo to po
+        var bo = _mapper.Map<List<PartNumberBo>>(items);
+        return new PartNumberListBo(){Items=bo,Count=count};
     }
 }
