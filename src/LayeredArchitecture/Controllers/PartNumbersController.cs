@@ -44,12 +44,31 @@ public class PartNumbersController : ControllerBase
         try
         {
             var result =  _mapper.Map<GetPartNumberResp>( await _service.GetPartNumber(id));
-            
+
             if(result==null)
             {
                 return BadRequest();
             }
             return result;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError("ErrMsg: {@string} , StatusCode: {code}.",ex.Message.ToString(),500);
+            return StatusCode(500);
+        }
+    }
+
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<bool>> Update(string id,[FromBody]PartNumberBo partNumber)
+    {
+        try
+        {
+            partNumber.Id = id;
+            _logger.LogInformation(
+                    "----- Sending command: ({@Command})",
+                    partNumber);
+            return await _service.UpdatePartNumber(partNumber);
         }
         catch(Exception ex)
         {

@@ -30,4 +30,13 @@ public class PartNumberService : IPartNumberService
         var partNumberBo = _mapper.Map<PartNumberBo>(partNumber);
         return partNumberBo;
     }
+
+    public async Task<bool> UpdatePartNumber(PartNumberBo partNumber)
+    {
+        var partNumberPo = await _reposiory.GetAsync(partNumber.Id);
+        partNumberPo.Name = partNumber.Name;
+        partNumberPo.Spec = partNumber.Spec;
+        await _reposiory.SaveChangesAsync();
+        return true;
+    }
 }
