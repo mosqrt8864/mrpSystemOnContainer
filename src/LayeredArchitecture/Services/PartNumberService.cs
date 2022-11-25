@@ -24,4 +24,10 @@ public class PartNumberService : IPartNumberService
         await _reposiory.Add(partNumberPO);
         return true;
     }
+    public async Task<PartNumberBo> GetPartNumber(string id)
+    {
+        var partNumber = await _reposiory.GetAsync(id);
+        var partNumberBo = _mapper.Map<PartNumberBo>(partNumber);
+        return partNumberBo;
+    }
 }

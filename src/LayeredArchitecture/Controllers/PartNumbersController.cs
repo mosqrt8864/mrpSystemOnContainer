@@ -37,4 +37,24 @@ public class PartNumbersController : ControllerBase
             return StatusCode(500);
         }
     }
+    
+    [HttpGet("{id}")]
+    public async Task<ActionResult<GetPartNumberResp>> Get(string id)
+    {
+        try
+        {
+            var result =  _mapper.Map<GetPartNumberResp>( await _service.GetPartNumber(id));
+            
+            if(result==null)
+            {
+                return BadRequest();
+            }
+            return result;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError("ErrMsg: {@string} , StatusCode: {code}.",ex.Message.ToString(),500);
+            return StatusCode(500);
+        }
+    }
 }
