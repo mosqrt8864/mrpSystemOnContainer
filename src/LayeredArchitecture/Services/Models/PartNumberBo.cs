@@ -1,11 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-using LayeredArchitecture.Services.Models;
 using LayeredArchitecture.Commons.Mappings;
-namespace LayeredArchitecture.Repositories.Models;
+using LayeredArchitecture.Controllers.Models;
 
-public class PartNumber: IMapFrom<PartNumberBo>
+namespace LayeredArchitecture.Services.Models;
+
+public class PartNumberBo :IMapFrom<CreatePartNumberRequest>
 {
-    [Key]
     public string Id{set;get;} = string.Empty; // 料號編碼
     public string Name{set;get;} = string.Empty; // 名稱
     public string Spec{set;get;} = string.Empty; // 規格
