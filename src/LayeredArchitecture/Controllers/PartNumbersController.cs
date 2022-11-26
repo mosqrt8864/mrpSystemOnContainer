@@ -11,7 +11,7 @@ public class PartNumbersController : ControllerBase
 {
     private IPartNumberService _service;
     private IMapper _mapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<PartNumbersController> _logger;
     public PartNumbersController(IPartNumberService service,IMapper mapper,ILogger<PartNumbersController> logger)
     {
         _service = service;

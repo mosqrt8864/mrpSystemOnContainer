@@ -11,8 +11,8 @@ public class PurchaseRequestsController : ControllerBase
 {
     private readonly IPurchaseRequestService _service;
     private readonly IMapper _mapper;
-    private readonly ILogger _logger;
-    public PurchaseRequestsController(IPurchaseRequestService service,IMapper mapper,ILogger<PartNumbersController> logger)
+    private readonly ILogger<PurchaseRequestsController> _logger;
+    public PurchaseRequestsController(IPurchaseRequestService service,IMapper mapper,ILogger<PurchaseRequestsController> logger)
     {
         _service = service;
         _mapper = mapper;

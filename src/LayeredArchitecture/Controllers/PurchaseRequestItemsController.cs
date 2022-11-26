@@ -10,7 +10,7 @@ namespace LayeredArchitecture.Controllers;
 public class PurchaseRequestItemsController : ControllerBase
 {
     private readonly IPurchaseRequestItemService _service;
-    private readonly ILogger _logger;
+    private readonly ILogger<PurchaseRequestItemsController> _logger;
     public PurchaseRequestItemsController(IPurchaseRequestItemService service,ILogger<PurchaseRequestItemsController> logger)
     {
         _service = service;
