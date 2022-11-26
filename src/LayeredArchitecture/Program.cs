@@ -12,10 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<MRPSystemDbContext>(options =>
                 options.UseInMemoryDatabase("MRPSystemDb"));
-builder.Services.AddTransient<IPartNumberRepository, PartNumberRepository>();
-builder.Services.AddTransient<IPartNumberService, PartNumberService>();
-builder.Services.AddTransient<IPurchaseRequestRepository, PurchaseRequestRepository>();
-builder.Services.AddTransient<IPurchaseRequestService, PurchaseRequestService>();
+builder.Services.AddScoped<IPartNumberRepository, PartNumberRepository>();
+builder.Services.AddScoped<IPartNumberService, PartNumberService>();
+builder.Services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
+builder.Services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
+builder.Services.AddScoped<IPurchaseRequestItemRepository, PurchaseRequestItemRepository>();
+builder.Services.AddScoped<IPurchaseRequestItemService, PurchaseRequestItemService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

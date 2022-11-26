@@ -13,8 +13,8 @@ public class PurchaseRequestService: IPurchaseRequestService
     public PurchaseRequestService(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _remoteServiceBaseUrl = "http://localhost:5002/api/v1/purchaserequests";
-        _purchaseRequestItemUrl = "http://localhost:5002/api/v1/purchaserequestitems";
+        _remoteServiceBaseUrl = "http://localhost:5003/api/v1/purchaserequests";
+        _purchaseRequestItemUrl = "http://localhost:5003/api/v1/purchaserequestitems";
     }
 
     public async Task<PaginatedList<PurchaseRequestViewModel>> GetPurchaseRequests(int pageNumber,int pageSize)
