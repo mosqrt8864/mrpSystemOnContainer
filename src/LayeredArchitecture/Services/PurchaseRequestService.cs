@@ -22,4 +22,10 @@ public class PurchaseRequestService : IPurchaseRequestService
         await _repository.Add(purchaseRequestPo);
         return true;
     }
+    public async Task<PurchaseRequestBo> GetPurchaseRequest(string id)
+    {
+        var purchaseRequestPo = await _repository.GetAsync(id);
+        var result = _mapper.Map<PurchaseRequestBo>(purchaseRequestPo);
+        return result;
+    }
 }

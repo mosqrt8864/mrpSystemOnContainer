@@ -19,14 +19,42 @@ public class PurchaseRequestsController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<bool> Create(CreatePurchaseRequestReq req)
+    public async Task<ActionResult<bool>> Create(CreatePurchaseRequestReq req)
     {
-        _logger.LogInformation(
+        try
+        {
+            _logger.LogInformation(
                     "----- Sending command: ({@Command})",
                     req);
-        // dto to bo
-        var purchaseRequestBo = _mapper.Map<PurchaseRequestBo>(req);
-        var result = await _service.CreatePurchaseRequest(purchaseRequestBo);
-        return result;
+            // dto to bo
+            var purchaseRequestBo = _mapper.Map<PurchaseRequestBo>(req);
+            var result = await _service.CreatePurchaseRequest(purchaseRequestBo);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError("ErrMsg: {@string} , StatusCode: {code}.",ex.Message.ToString(),500);
+            return StatusCode(500);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<GetPurchaseRequestResp>> Get (string id)
+    {
+        try
+        {
+            // bo to dto
+            var result = _mapper.Map<GetPurchaseRequestResp>(await _service.GetPurchaseRequest(id));
+            if (result == null)
+            {
+                return BadRequest();
+            }
+            return result;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError("ErrMsg: {@string} , StatusCode: {code}.",ex.Message.ToString(),500);
+            return StatusCode(500);
+        }
     }
 }
