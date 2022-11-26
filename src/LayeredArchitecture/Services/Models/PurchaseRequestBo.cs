@@ -14,3 +14,10 @@ public class PurchaseRequestBo:IMapFrom<CreatePurchaseRequestReq>,IMapFrom<Purch
     public string Description{set;get;} = string.Empty; // 描述
     public List<PurchaseRequestItemBo> PurchaseRequestItems{set;get;} // 請購單項目
 }
+
+
+public class PurchaseRequestListBo
+{
+    public IEnumerable<PurchaseRequestBo> Items{set;get;}
+    public int Count{set;get;}
+}

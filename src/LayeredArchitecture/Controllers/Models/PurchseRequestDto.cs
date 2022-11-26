@@ -31,7 +31,7 @@ public class GetPurchaseRequestResp :IMapFrom<PurchaseRequestBo>
     public string Id{set;get;} = string.Empty; // 請購單號
     public DateTime CreateAt{set;get;} // 建立時間
     public string Description{set;get;} = string.Empty; // 描述
-    public List<GetPurchaseRequestItemResp> PurchaseRequestItems{set;get;} // 請購單項目
+    public IEnumerable<GetPurchaseRequestItemResp> PurchaseRequestItems{set;get;} // 請購單項目
 }
 
 public class GetPurchaseRequestItemResp :IMapFrom<PurchaseRequestItemBo>
@@ -42,4 +42,17 @@ public class GetPurchaseRequestItemResp :IMapFrom<PurchaseRequestItemBo>
     public string Name {set;get;} = string.Empty;// 料號名稱
     public string Spec {set;get;} = string.Empty;// 料號規格
     public int Qty{set;get;} // 數量
+}
+
+public class GetPurchaseRequestListReq
+{
+    public int PageSize{set;get;}=1;
+    public int PageNumber{set;get;}=10;
+}
+
+public class GetPurchaseRequestListResp :IMapFrom<PurchaseRequestBo>
+{
+    public string Id{set;get;} = string.Empty; // 請購單號
+    public DateTime CreateAt{set;get;} // 建立時間
+    public string Description{set;get;} = string.Empty; // 描述
 }

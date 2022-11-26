@@ -28,4 +28,12 @@ public class PurchaseRequestService : IPurchaseRequestService
         var result = _mapper.Map<PurchaseRequestBo>(purchaseRequestPo);
         return result;
     }
+
+    public async Task<PurchaseRequestListBo> GetPurchaseRequestList(int pageSize,int pageNumber)
+    {
+        var purchaseRequestPo = await _repository.GetListAsync(pageSize,pageNumber);
+        var count = await _repository.GetCountAsync();
+        var boList = _mapper.Map<IEnumerable<PurchaseRequestBo>>(purchaseRequestPo);
+        return new PurchaseRequestListBo(){Items = boList,Count = count};
+    }
 }

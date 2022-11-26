@@ -90,7 +90,7 @@ public class PartNumbersController : ControllerBase
                     request);
             var list = await _service.GetPartNumberList(request.PageSize,request.PageNumber);
             // bo to dto
-            var partNumberList = _mapper.Map<List<GetPartNumberListResp>>( list.Items);
+            var partNumberList = _mapper.Map<IEnumerable<GetPartNumberListResp>>( list.Items);
             var result = new PaginatedList<GetPartNumberListResp>(partNumberList,list.Count,request.PageNumber,request.PageSize);
             return result;
         }

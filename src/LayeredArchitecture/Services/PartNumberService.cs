@@ -46,7 +46,7 @@ public class PartNumberService : IPartNumberService
         var items = await _reposiory.GetListAsync(pageSize,pageNumber);
         var count = await _reposiory.GetCountAsync();
         // bo to po
-        var bo = _mapper.Map<List<PartNumberBo>>(items);
+        var bo = _mapper.Map<IEnumerable<PartNumberBo>>(items);
         return new PartNumberListBo(){Items=bo,Count=count};
     }
 }

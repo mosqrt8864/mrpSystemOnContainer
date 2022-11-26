@@ -57,4 +57,13 @@ public class PurchaseRequestsController : ControllerBase
             return StatusCode(500);
         }
     }
+
+    [HttpGet]
+    public async Task<ActionResult<PaginatedList<GetPurchaseRequestListResp>>> GetList([FromQuery] GetPurchaseRequestListReq request)
+    {
+        var listBo = await _service.GetPurchaseRequestList(request.PageSize,request.PageNumber);
+        // bo to dto
+        var purchaseRequestList = _mapper.Map<IEnumerable<GetPurchaseRequestListResp>>(listBo.Items);
+        return new PaginatedList<GetPurchaseRequestListResp>(purchaseRequestList,listBo.Count,request.PageNumber,request.PageSize);
+    }
 }
