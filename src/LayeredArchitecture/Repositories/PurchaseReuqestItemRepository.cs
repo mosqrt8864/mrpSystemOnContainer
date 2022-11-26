@@ -18,6 +18,7 @@ public class PurchaseRequestItemRepository :IPurchaseRequestItemRepository
     }
     public async Task<PurchaseRequestItem> GetAsync(int id)
     {
-        return await _context.PurchaseRequestItems.FirstOrDefaultAsync(o=>id ==id);
+        var result = await _context.PurchaseRequestItems.FirstOrDefaultAsync(o=>o.Id ==id);
+        return result == null ? new PurchaseRequestItem():result;
     }
 }

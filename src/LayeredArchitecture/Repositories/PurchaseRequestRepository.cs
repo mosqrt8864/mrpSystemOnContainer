@@ -20,7 +20,8 @@ public class PurchaseRequestRepository :IPurchaseRequestRepository
 
     public async Task<PurchaseRequest> GetAsync(string id)
     {
-        return await _context.PurchaseRequests.Include(o => o.PurchaseRequestItems).FirstOrDefaultAsync(x=>x.Id == id);
+        var result = await _context.PurchaseRequests.Include(o => o.PurchaseRequestItems).FirstOrDefaultAsync(x=>x.Id == id);
+        return result == null ? new PurchaseRequest(): result;
     }
 
     public async Task<IEnumerable<PurchaseRequest>> GetListAsync(int pageSize,int pageNumber)

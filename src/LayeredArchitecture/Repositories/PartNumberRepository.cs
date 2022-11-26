@@ -17,7 +17,8 @@ public class PartNumberRepository : IPartNumberRepository
     }
     public async Task<PartNumber> GetAsync(string id)
     {
-        return await _context.PartNumbers.FirstOrDefaultAsync(x=>x.Id == id);
+        var result = await _context.PartNumbers.FirstOrDefaultAsync(x=>x.Id == id);
+        return result==null?new PartNumber():result;
     }
 
     public async Task<IEnumerable<PartNumber>> GetListAsync(int pageSize,int pageNumber)

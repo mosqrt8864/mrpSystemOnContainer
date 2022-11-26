@@ -18,6 +18,6 @@ public class PurchaseRequestBo:IMapFrom<CreatePurchaseRequestReq>,IMapFrom<Purch
 
 public class PurchaseRequestListBo
 {
-    public IEnumerable<PurchaseRequestBo> Items{set;get;}
+    public IEnumerable<PurchaseRequestBo> Items{set;get;} = new List<PurchaseRequestBo>();
     public int Count{set;get;}
 }

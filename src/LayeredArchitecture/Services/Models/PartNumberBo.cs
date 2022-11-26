@@ -13,6 +13,6 @@ public class PartNumberBo :IMapFrom<CreatePartNumberRequest>,IMapFrom<PartNumber
 
 public class PartNumberListBo
 {
-    public IEnumerable<PartNumberBo> Items{set;get;}
+    public IEnumerable<PartNumberBo> Items{set;get;} = new List<PartNumberBo>();
     public int Count{set;get;}
 }
