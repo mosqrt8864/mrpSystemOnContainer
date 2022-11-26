@@ -1,7 +1,12 @@
 global using NUnit.Framework;
 global using LayeredArchitecture.Services;
 global using LayeredArchitecture.Repositories.interfaces;
+global using LayeredArchitecture.Services.interfaces;
 global using AutoMapper;
 global using Moq;
 global using LayeredArchitecture.Repositories.Models;
 global using LayeredArchitecture.Services.Models;
+global using LayeredArchitecture.Controllers;
+global using LayeredArchitecture.Controllers.Models;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.Mvc;

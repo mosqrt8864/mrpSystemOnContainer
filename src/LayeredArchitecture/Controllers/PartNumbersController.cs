@@ -61,7 +61,7 @@ public class PartNumbersController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult<bool>> Update(string id,[FromBody] CreatePartNumberRequest request)
+    public async Task<ActionResult<bool>> Update(string id,[FromBody] UpdatePartNumberRequest request)
     {
         try
         {
