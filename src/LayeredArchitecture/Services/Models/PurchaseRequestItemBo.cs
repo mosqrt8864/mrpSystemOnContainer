@@ -1,11 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-using LayeredArchitecture.Services.Models;
 using LayeredArchitecture.Commons.Mappings;
-namespace LayeredArchitecture.Repositories.Models;
-public class PurchaseRequestItem: IMapFrom<PurchaseRequestItemBo>
-{
+using LayeredArchitecture.Controllers.Models;
+using LayeredArchitecture.Repositories.Models;
+namespace LayeredArchitecture.Services.Models;
 
-    [Key]
+public class PurchaseRequestItemBo:IMapFrom<CreatePurchaseRequestItemReq>
+{
     public int Id{set;get;}
     public string PRId{set;get;} = string.Empty; // 請購單ID
     public string PNId{set;get;} = string.Empty; // 料號ID

@@ -14,6 +14,8 @@ builder.Services.AddDbContext<MRPSystemDbContext>(options =>
                 options.UseInMemoryDatabase("MRPSystemDb"));
 builder.Services.AddTransient<IPartNumberRepository, PartNumberRepository>();
 builder.Services.AddTransient<IPartNumberService, PartNumberService>();
+builder.Services.AddTransient<IPurchaseRequestRepository, PurchaseRequestRepository>();
+builder.Services.AddTransient<IPurchaseRequestService, PurchaseRequestService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
