@@ -61,4 +61,10 @@ public class PurchaseRequestService : IPurchaseRequestService
         await _repository.SaveChangesAsync();
         return true;
     }
+    public async Task<bool> DeletePurchaseRequest(string id)
+    {
+        var purchaseRequest = await _repository.GetAsync(id);
+        await _repository.Delete(purchaseRequest);
+        return true;
+    }
 }

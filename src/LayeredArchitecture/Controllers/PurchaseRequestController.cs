@@ -73,5 +73,10 @@ public class PurchaseRequestsController : ControllerBase
         var purchaseRequestBo = _mapper.Map<PurchaseRequestBo>(request);
         return await _service.UpdatePurchaseRequest(purchaseRequestBo);
     }
+    [HttpDelete("{id}")]
 
+    public async Task<ActionResult<bool>> Delete(string id)
+    {
+        return await _service.DeletePurchaseRequest(id);
+    }
 }
