@@ -56,3 +56,24 @@ public class GetPurchaseRequestListResp :IMapFrom<PurchaseRequestBo>
     public DateTime CreateAt{set;get;} // 建立時間
     public string Description{set;get;} = string.Empty; // 描述
 }
+
+public class UpdatePurchaseRequestReq
+{
+    public UpdatePurchaseRequestReq(){
+        PurchaseRequestItems = new List<UpdatePurchaseRequestItemReq>();
+    }
+    public string Id{set;get;} = string.Empty; // 請購單號
+    public DateTime CreateAt{set;get;} // 建立時間
+    public string Description{set;get;} = string.Empty; // 描述
+    public List<UpdatePurchaseRequestItemReq> PurchaseRequestItems{set;get;} // 請購單項目
+}
+
+public class UpdatePurchaseRequestItemReq
+{
+    public int Id{set;get;}
+    public string PRId{set;get;} = string.Empty; // 請購單ID
+    public string PNId{set;get;} = string.Empty; // 料號ID
+    public string Name {set;get;} = string.Empty;// 料號名稱
+    public string Spec {set;get;} = string.Empty;// 料號規格
+    public int Qty{set;get;} // 數量
+}

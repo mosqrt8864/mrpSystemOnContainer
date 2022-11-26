@@ -19,7 +19,7 @@ public class PurchaseRequestsController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<ActionResult<bool>> Create(CreatePurchaseRequestReq req)
+    public async Task<ActionResult<bool>> Create([FromBody] CreatePurchaseRequestReq req)
     {
         try
         {
@@ -66,4 +66,12 @@ public class PurchaseRequestsController : ControllerBase
         var purchaseRequestList = _mapper.Map<IEnumerable<GetPurchaseRequestListResp>>(listBo.Items);
         return new PaginatedList<GetPurchaseRequestListResp>(purchaseRequestList,listBo.Count,request.PageNumber,request.PageSize);
     }
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<bool>> Update (string id,[FromBody] UpdatePurchaseRequestReq request)
+    {
+        request.Id = id;
+        var purchaseRequestBo = _mapper.Map<PurchaseRequestBo>(request);
+        return await _service.UpdatePurchaseRequest(purchaseRequestBo);
+    }
+
 }

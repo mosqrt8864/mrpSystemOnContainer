@@ -4,7 +4,7 @@ using LayeredArchitecture.Repositories.Models;
 
 namespace LayeredArchitecture.Services.Models;
 
-public class PurchaseRequestBo:IMapFrom<CreatePurchaseRequestReq>,IMapFrom<PurchaseRequest>
+public class PurchaseRequestBo:IMapFrom<CreatePurchaseRequestReq>,IMapFrom<PurchaseRequest>,IMapFrom<UpdatePurchaseRequestReq>
 {
     public PurchaseRequestBo(){
         PurchaseRequestItems = new List<PurchaseRequestItemBo>();

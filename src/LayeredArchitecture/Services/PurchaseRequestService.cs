@@ -36,4 +36,29 @@ public class PurchaseRequestService : IPurchaseRequestService
         var boList = _mapper.Map<IEnumerable<PurchaseRequestBo>>(purchaseRequestPo);
         return new PurchaseRequestListBo(){Items = boList,Count = count};
     }
+    public async Task<bool> UpdatePurchaseRequest(PurchaseRequestBo purchaseRequest)
+    {
+        var purchaseRequestPo = await _repository.GetAsync(purchaseRequest.Id);
+        purchaseRequestPo.Description = purchaseRequest.Description;
+        foreach(var item in purchaseRequest.PurchaseRequestItems)
+        {
+            var existed = purchaseRequestPo.PurchaseRequestItems.Where(o=>o.Id == item.Id).SingleOrDefault();
+            if (existed!=null){
+                existed.PNId = item.PNId;
+                existed.Name = item.Name;
+                existed.Spec = item.Spec;
+                existed.Qty = item.Qty;
+            }else{
+                purchaseRequestPo.PurchaseRequestItems.Add(new PurchaseRequestItem(){
+                        PRId = item.PRId,
+                        PNId = item.PNId,
+                        Name = item.Name,
+                        Spec = item.Spec,
+                        Qty = item.Qty
+                    });
+            }
+        }
+        await _repository.SaveChangesAsync();
+        return true;
+    }
 }

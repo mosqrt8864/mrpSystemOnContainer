@@ -3,7 +3,7 @@ using LayeredArchitecture.Controllers.Models;
 using LayeredArchitecture.Repositories.Models;
 namespace LayeredArchitecture.Services.Models;
 
-public class PurchaseRequestItemBo:IMapFrom<CreatePurchaseRequestItemReq>,IMapFrom<PurchaseRequestItem>
+public class PurchaseRequestItemBo:IMapFrom<CreatePurchaseRequestItemReq>,IMapFrom<PurchaseRequestItem>,IMapFrom<UpdatePurchaseRequestItemReq>
 {
     public int Id{set;get;}
     public string PRId{set;get;} = string.Empty; // 請購單ID

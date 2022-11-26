@@ -20,7 +20,7 @@ public class PartNumbersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<bool>> Create(CreatePartNumberRequest request)
+    public async Task<ActionResult<bool>> Create([FromBody] CreatePartNumberRequest request)
     {
         try
         {
@@ -61,7 +61,7 @@ public class PartNumbersController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult<bool>> Update(string id,CreatePartNumberRequest request)
+    public async Task<ActionResult<bool>> Update(string id,[FromBody] CreatePartNumberRequest request)
     {
         try
         {
