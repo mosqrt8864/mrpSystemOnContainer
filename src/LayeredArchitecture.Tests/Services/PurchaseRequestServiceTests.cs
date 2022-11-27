@@ -15,18 +15,6 @@ public class PurchaseRequestServiceTests
         });
         _mapper = configuration.CreateMapper();
         _repository = new Mock<IPurchaseRequestRepository>();
-        /*_repository.Setup(x=>x.Add(It.IsAny<PurchaseRequest>()));
-        _repository.Setup(x=>x.SaveChangesAsync());
-        _repository.Setup(x=>x.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(new PurchaseRequest(){Id="Id",Description="Des",CreateAt=DateTime.Now,
-                PurchaseRequestItems= new List<PurchaseRequestItem>(){new PurchaseRequestItem()
-                {Id=1,PRId="Id",PNId="Pants01",Name="Pants",Spec="Block",Qty=100}}});
-        _repository.Setup(x => x.GetListAsync(It.IsAny<int>(),It.IsAny<int>()))
-                    .ReturnsAsync(new List<PurchaseRequest>(){new PurchaseRequest(){Id="Id",Description="Des",CreateAt=DateTime.Now},
-                    new PurchaseRequest(){Id="Id1",Description="Des",CreateAt=DateTime.Now}});
-        _repository.Setup(x => x.GetCountAsync())
-                    .ReturnsAsync(2);
-        _repository.Setup(x=>x.Delete(It.IsAny<PurchaseRequest>()));*/
         _service = new PurchaseRequestService(_repository.Object,_mapper);
     }
 
@@ -80,6 +68,7 @@ public class PurchaseRequestServiceTests
                     .ReturnsAsync(1);
         var purchaseRequestListBo = _mapper.Map<List<PurchaseRequestBo>>(purchaseRequestList);
         var expected = new PurchaseRequestListBo(){Count = 1,Items = purchaseRequestListBo};
+        
         // Act
         int pageSize = 1,pageNumber=10;
         var actual = _service.GetPurchaseRequestList(pageSize,pageNumber);
