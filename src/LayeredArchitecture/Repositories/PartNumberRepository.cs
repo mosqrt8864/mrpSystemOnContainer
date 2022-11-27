@@ -10,10 +10,11 @@ public class PartNumberRepository : IPartNumberRepository
     {
         _context = context;
     }
-    public async Task Add(PartNumber partNumber)
+    public async Task<bool> Add(PartNumber partNumber)
     {
         _context.PartNumbers.Add(partNumber);
-        await _context.SaveChangesAsync();
+        var added = await _context.SaveChangesAsync();
+        return added > 0;
     }
     public async Task<PartNumber> GetAsync(string id)
     {
@@ -31,7 +32,8 @@ public class PartNumberRepository : IPartNumberRepository
         return await _context.PartNumbers.AsNoTracking().CountAsync();
     }
 
-    public async Task SaveChangesAsync(){
-        await _context.SaveChangesAsync();
+    public async Task<bool> SaveChangesAsync(){
+        var saved = await _context.SaveChangesAsync();
+        return saved > 0;
     }
 }

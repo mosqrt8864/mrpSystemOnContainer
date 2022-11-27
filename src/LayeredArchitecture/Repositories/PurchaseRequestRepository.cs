@@ -11,11 +11,12 @@ public class PurchaseRequestRepository :IPurchaseRequestRepository
         _context = context;
     }
 
-    public async Task Add(PurchaseRequest purchaseRequest)
+    public async Task<bool> Add(PurchaseRequest purchaseRequest)
     {
         purchaseRequest.CreateAt = DateTime.Now;
         _context.PurchaseRequests.Add(purchaseRequest);
-        await _context.SaveChangesAsync();
+        var added = await _context.SaveChangesAsync();
+        return added > 0;
     }
 
     public async Task<PurchaseRequest> GetAsync(string id)
@@ -33,12 +34,14 @@ public class PurchaseRequestRepository :IPurchaseRequestRepository
     {
         return await _context.PurchaseRequests.AsNoTracking().CountAsync();
     }
-    public async Task SaveChangesAsync(){
-        await _context.SaveChangesAsync();
+    public async Task<bool> SaveChangesAsync(){
+        var saved = await _context.SaveChangesAsync();
+        return saved > 0;
     }
-    public async Task Delete(PurchaseRequest purchaseRequest)
+    public async Task<bool> Delete(PurchaseRequest purchaseRequest)
     {
         _context.Remove(purchaseRequest);
-        await _context.SaveChangesAsync();
+        var deleted = await _context.SaveChangesAsync();
+        return deleted > 0;
     }
 }

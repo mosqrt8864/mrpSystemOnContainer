@@ -22,6 +22,9 @@ public class PartNumberServiceTests
     {
         // Arrange
         var partNumber = new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"};
+
+        _reposiory.Setup(x=>x.Add(It.IsAny<PartNumber>()))
+            .ReturnsAsync(true);
         
         // Act
         var actual = _service.CreatePartNumber(partNumber);
@@ -35,9 +38,11 @@ public class PartNumberServiceTests
     {
         // Arrange
         var partNumber = new PartNumber(){Id="Id",Name="Name",Spec="Spec"};
+        var expected = _mapper.Map<PartNumberBo>(partNumber);
+
         _reposiory.Setup(x => x.GetAsync(It.IsAny<string>()))
                     .ReturnsAsync(partNumber);
-        var expected = _mapper.Map<PartNumberBo>(partNumber);
+
         // Act
         var id = "Id";
         var actual = _service.GetPartNumber(id);
@@ -52,12 +57,13 @@ public class PartNumberServiceTests
         // Arrange
         var partNumber = new PartNumber(){Id="Id",Name="Name",Spec="Spec"};
         var partNumberList = new List<PartNumber>(){partNumber};
+        var partNumberListBo = _mapper.Map<IEnumerable<PartNumberBo>>(partNumberList);
+        var expected = new PartNumberListBo(){Count = 1,Items = partNumberListBo};
+        
         _reposiory.Setup(x => x.GetListAsync(It.IsAny<int>(),It.IsAny<int>()))
                     .ReturnsAsync(partNumberList);
         _reposiory.Setup(x=>x.GetCountAsync())
                     .ReturnsAsync(1);
-        var partNumberListBo = _mapper.Map<IEnumerable<PartNumberBo>>(partNumberList);
-        var expected = new PartNumberListBo(){Count = 1,Items = partNumberListBo};
 
         // Act
         int pageSize = 1,pageNumber=10;
@@ -71,9 +77,12 @@ public class PartNumberServiceTests
     {
         // Arrange
         var partNumber = new PartNumber(){Id="Id",Name="Name",Spec="Spec"};
+        var partNumberBo = _mapper.Map<PartNumberBo>(partNumber);
+
         _reposiory.Setup(x => x.GetAsync(It.IsAny<string>()))
                     .ReturnsAsync(partNumber);
-        var partNumberBo = _mapper.Map<PartNumberBo>(partNumber);
+        _reposiory.Setup(x=>x.SaveChangesAsync())
+            .ReturnsAsync(true);
 
         // Act
         var actual = _service.UpdatePartNumber(partNumberBo);

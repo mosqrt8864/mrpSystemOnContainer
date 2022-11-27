@@ -4,6 +4,6 @@ namespace LayeredArchitecture.Repositories.interfaces;
 
 public interface IPurchaseRequestItemRepository
 {
-    Task Delete(PurchaseRequestItem purchaseRequestItem);
+    Task<bool> Delete(PurchaseRequestItem purchaseRequestItem);
     Task<PurchaseRequestItem> GetAsync(int id);
 }

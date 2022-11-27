@@ -19,8 +19,7 @@ public class PurchaseRequestService : IPurchaseRequestService
     public async Task<bool> CreatePurchaseRequest(PurchaseRequestBo purchaseRequest)
     {
         var purchaseRequestPo = _mapper.Map<PurchaseRequest>(purchaseRequest);
-        await _repository.Add(purchaseRequestPo);
-        return true;
+        return await _repository.Add(purchaseRequestPo);;
     }
     public async Task<PurchaseRequestBo> GetPurchaseRequest(string id)
     {
@@ -58,13 +57,11 @@ public class PurchaseRequestService : IPurchaseRequestService
                     });
             }
         }
-        await _repository.SaveChangesAsync();
-        return true;
+        return await _repository.SaveChangesAsync();;
     }
     public async Task<bool> DeletePurchaseRequest(string id)
     {
         var purchaseRequest = await _repository.GetAsync(id);
-        await _repository.Delete(purchaseRequest);
-        return true;
+        return await _repository.Delete(purchaseRequest);;
     }
 }

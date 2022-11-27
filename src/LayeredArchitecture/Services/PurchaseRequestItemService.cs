@@ -18,7 +18,6 @@ public class PurchaseRequestItemService :IPurchaseRequestItemService
     public async Task<bool> DeletePurchaseRequestItem(int id)
     {
         var purchaseRequestItem = await _repository.GetAsync(id);
-        await _repository.Delete(purchaseRequestItem);
-        return true;
+        return await _repository.Delete(purchaseRequestItem);;
     }
 }

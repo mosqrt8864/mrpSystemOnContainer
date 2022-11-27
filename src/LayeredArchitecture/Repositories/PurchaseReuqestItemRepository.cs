@@ -11,10 +11,11 @@ public class PurchaseRequestItemRepository :IPurchaseRequestItemRepository
         _context = context;
     }
 
-    public async Task Delete(PurchaseRequestItem item)
+    public async Task<bool> Delete(PurchaseRequestItem item)
     {
         _context.Remove(item);
-        await _context.SaveChangesAsync();
+        var deleted = await _context.SaveChangesAsync();
+        return deleted > 0;
     }
     public async Task<PurchaseRequestItem> GetAsync(int id)
     {

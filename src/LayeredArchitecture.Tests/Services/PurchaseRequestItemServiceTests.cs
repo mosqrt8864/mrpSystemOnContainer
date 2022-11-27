@@ -15,9 +15,11 @@ public class PurchaseRequestItemServiceTests
         // Arrange
         var purchaseRequestItem = new PurchaseRequestItem(){Id=1,PRId="Id",PNId="PNId",
             Name="Name",Spec="Spec",Qty=100};
+            
         _repository.Setup(x=>x.GetAsync(It.IsAny<int>()))
             .ReturnsAsync(purchaseRequestItem);
-        _repository.Setup(x=>x.Delete(It.IsAny<PurchaseRequestItem>()));
+        _repository.Setup(x=>x.Delete(It.IsAny<PurchaseRequestItem>()))
+            .ReturnsAsync(true);
 
         // Act
         var id = 1;
