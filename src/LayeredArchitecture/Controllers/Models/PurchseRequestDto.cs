@@ -32,6 +32,26 @@ public class GetPurchaseRequestResp :IMapFrom<PurchaseRequestBo>
     public DateTime CreateAt{set;get;} // 建立時間
     public string Description{set;get;} = string.Empty; // 描述
     public IEnumerable<GetPurchaseRequestItemResp> PurchaseRequestItems{set;get;} // 請購單項目
+
+    public override bool Equals(Object? obj)
+    {
+        if (obj == null)
+            return false;
+
+        GetPurchaseRequestResp? other = obj as GetPurchaseRequestResp;
+        if ((Object?)other == null)
+            return false;
+
+        return this.Id == other.Id
+            && this.CreateAt == other.CreateAt
+            && this.Description == other.Description
+            && this.PurchaseRequestItems.SequenceEqual(other.PurchaseRequestItems);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class GetPurchaseRequestItemResp :IMapFrom<PurchaseRequestItemBo>
@@ -42,6 +62,28 @@ public class GetPurchaseRequestItemResp :IMapFrom<PurchaseRequestItemBo>
     public string Name {set;get;} = string.Empty;// 料號名稱
     public string Spec {set;get;} = string.Empty;// 料號規格
     public int Qty{set;get;} // 數量
+
+    public override bool Equals(Object? obj)
+    {
+        if (obj == null)
+            return false;
+
+        GetPurchaseRequestItemResp? other = obj as GetPurchaseRequestItemResp;
+        if ((Object?)other == null)
+            return false;
+
+        return this.Id == other.Id
+            && this.PRId == other.PRId
+            && this.PNId == other.PNId
+            && this.Name == other.Name
+            && this.Spec == other.Spec
+            && this.Qty == other.Qty;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class GetPurchaseRequestListReq
@@ -55,6 +97,25 @@ public class GetPurchaseRequestListResp :IMapFrom<PurchaseRequestBo>
     public string Id{set;get;} = string.Empty; // 請購單號
     public DateTime CreateAt{set;get;} // 建立時間
     public string Description{set;get;} = string.Empty; // 描述
+
+    public override bool Equals(Object? obj)
+    {
+        if (obj == null)
+            return false;
+
+        GetPurchaseRequestListResp? other = obj as GetPurchaseRequestListResp;
+        if ((Object?)other == null)
+            return false;
+
+        return this.Id == other.Id
+            && this.CreateAt == other.CreateAt
+            && this.Description == other.Description;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 
 public class UpdatePurchaseRequestReq

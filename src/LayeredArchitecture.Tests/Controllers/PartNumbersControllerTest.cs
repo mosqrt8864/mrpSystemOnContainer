@@ -15,43 +15,74 @@ public class PartNumbersControllerTest
         });
         _mapper = configuration.CreateMapper();
         _service = new Mock<IPartNumberService>();
-        _service.Setup(x=>x.CreatePartNumber(It.IsAny<PartNumberBo>()))
-            .ReturnsAsync(true);
-        _service.Setup(x=>x.UpdatePartNumber(It.IsAny<PartNumberBo>()))
-            .ReturnsAsync(true);
-        _service.Setup(x=>x.GetPartNumber(It.IsAny<string>()))
-            .ReturnsAsync(new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"});
-        _service.Setup(x=>x.GetPartNumberList(It.IsAny<int>(),It.IsAny<int>()))
-            .ReturnsAsync(new PartNumberListBo(){Items = new List<PartNumberBo>(){new PartNumberBo(){Id="Id",Name="Spec",Spec="Spec"}}
-            ,Count = 2});
         _logger = new Mock<ILogger<PartNumbersController>>();
         _controller = new PartNumbersController(_service.Object,_mapper,_logger.Object);
-
     }
     [Test]
     public void Create()
     {
-        var result = _controller.Create(new CreatePartNumberRequest());
-        Assert.IsNotNull(result);
+        // Arrange
+        var request = new CreatePartNumberRequest(){Id="Id",Name="Name",Spec="Spec"};
+
+        _service.Setup(x=>x.CreatePartNumber(It.IsAny<PartNumberBo>()))
+            .ReturnsAsync(true);
+
+        // Actual
+        var actual = _controller.Create(request);
+
+        // Assert
+        Assert.IsTrue(actual.Result.Value);
     }
     [Test]
     public void Get()
     {
-        var id = "Id";
-        var result = _controller.Get(id);
-        Assert.IsNotNull(result);
+        // Arrange
+        var request = "Id";
+        var expected = new GetPartNumberResp(){Id="Id",Name="Name",Spec="Spec"};
+
+        _service.Setup(x=>x.GetPartNumber(It.IsAny<string>()))
+            .ReturnsAsync(new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"});
+
+        // Act
+        var actual = _controller.Get(request);
+
+        // Assert
+        Assert.That(actual.Result.Value,Is.EqualTo(expected));
     }
     [Test]
     public void Update()
     {
+        // Arrange
         var id = "Id";
-        var result = _controller.Update(id,new UpdatePartNumberRequest());
-        Assert.IsNotNull(result);
+        var request = new UpdatePartNumberRequest(){Name="Name",Spec="Spec"};
+
+        _service.Setup(x=>x.UpdatePartNumber(It.IsAny<PartNumberBo>()))
+            .ReturnsAsync(true);
+
+        // Act
+        var actual = _controller.Update(id,request);
+
+        // Assert
+        Assert.IsTrue(actual.Result.Value);
     }
     [Test]
     public void GetList()
     {
-        var result = _controller.GetList(new GetPartNumberListReq(){PageSize=1,PageNumber=10});
-        Assert.IsNotNull(result);
+        // Arrange
+        var request = new GetPartNumberListReq(){PageSize=1,PageNumber=10};
+        var partNumberBo = new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"};
+        var partNumberBoList = new List<PartNumberBo>(){partNumberBo};
+        var partNumberListBo = new PartNumberListBo(){Count = 1,Items = partNumberBoList};
+        var getPartNumberListResp = _mapper.Map<IEnumerable<GetPartNumberListResp>>(partNumberBoList);
+        var expected = new PaginatedList<GetPartNumberListResp>(getPartNumberListResp,1,10,1);
+        
+        _service.Setup(x=>x.GetPartNumberList(It.IsAny<int>(),It.IsAny<int>()))
+            .ReturnsAsync(partNumberListBo);
+
+        // Act    
+        var actual = _controller.GetList(request);
+
+        // Assert
+        Assert.That(actual.Result.Value,Is.EqualTo(expected));
     }
 }

@@ -20,4 +20,24 @@ public class PaginatedList<T>
 
     public bool HasNextPage => PageNumber < TotalPages;
 
+    
+    public override bool Equals(Object? obj)
+    {
+        if (obj == null)
+            return false;
+
+        PaginatedList<T>? other = obj as PaginatedList<T>;
+        if ((Object?)other == null)
+            return false;
+
+        return this.PageNumber == other.PageNumber
+            && this.TotalCount == other.TotalCount
+            && this.TotalPages == other.TotalPages
+            && this.Items.SequenceEqual(other.Items);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
