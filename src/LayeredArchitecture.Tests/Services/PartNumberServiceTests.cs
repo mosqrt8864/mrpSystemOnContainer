@@ -14,44 +14,71 @@ public class PartNumberServiceTests
         });
         _mapper = configuration.CreateMapper();
         _reposiory = new Mock<IPartNumberRepository>();
-        _reposiory.Setup(x => x.Add(It.IsAny<PartNumber>()));
-        _reposiory.Setup(x => x.GetAsync(It.IsAny<string>()))
-                    .ReturnsAsync(new PartNumber() { Id="Id",Name="Name",Spec="Spec"});
-        _reposiory.Setup(x => x.GetListAsync(It.IsAny<int>(),It.IsAny<int>()))
-                    .ReturnsAsync(new List<PartNumber>(){new PartNumber(){Id="Id",Name="Name",Spec="Spec"},
-                    new PartNumber(){Id="Id",Name="Name",Spec="Spec"}});
-        _reposiory.Setup(x=>x.GetCountAsync())
-                    .ReturnsAsync(2);
         _service = new PartNumberService(_reposiory.Object,_mapper);
     }
 
     [Test]
     public void CreatePartNumber()
     {
+        // Arrange
+        var partNumber = new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"};
+        
+        // Act
+        var actual = _service.CreatePartNumber(partNumber);
 
-        var result = _service.CreatePartNumber(new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"});
-        Assert.IsTrue(result.Result);
+        // Assert
+        Assert.IsTrue(actual.Result);
     }
     [Test]
 
     public void GetPartNumber()
     {
+        // Arrange
+        var partNumber = new PartNumber(){Id="Id",Name="Name",Spec="Spec"};
+        _reposiory.Setup(x => x.GetAsync(It.IsAny<string>()))
+                    .ReturnsAsync(partNumber);
+        var expected = _mapper.Map<PartNumberBo>(partNumber);
+        // Act
         var id = "Id";
-        var result = _service.GetPartNumber(id);
-        Assert.IsTrue(result.Result.Id == id);
+        var actual = _service.GetPartNumber(id);
+
+        // Assert
+        Assert.That(actual.Result,Is.EqualTo(expected));
     }
 
     [Test]
     public void GetPartNumberList()
     {
+        // Arrange
+        var partNumber = new PartNumber(){Id="Id",Name="Name",Spec="Spec"};
+        var partNumberList = new List<PartNumber>(){partNumber};
+        _reposiory.Setup(x => x.GetListAsync(It.IsAny<int>(),It.IsAny<int>()))
+                    .ReturnsAsync(partNumberList);
+        _reposiory.Setup(x=>x.GetCountAsync())
+                    .ReturnsAsync(1);
+        var partNumberListBo = _mapper.Map<IEnumerable<PartNumberBo>>(partNumberList);
+        var expected = new PartNumberListBo(){Count = 1,Items = partNumberListBo};
+
+        // Act
         int pageSize = 1,pageNumber=10;
-        var result = _service.GetPartNumberList(pageSize,pageNumber);
-        Assert.IsTrue(result.Result.Count == 2); 
+        var actual = _service.GetPartNumberList(pageSize,pageNumber);
+
+        // Assert
+        Assert.That(actual.Result,Is.EqualTo(expected));
     }
     [Test]
     public void UpdatePartNumber()
     {
-        var result = _service.UpdatePartNumber(new PartNumberBo(){Id="Id",Name="Name",Spec="Spec"});
-        Assert.IsTrue(result.Result);
+        // Arrange
+        var partNumber = new PartNumber(){Id="Id",Name="Name",Spec="Spec"};
+        _reposiory.Setup(x => x.GetAsync(It.IsAny<string>()))
+                    .ReturnsAsync(partNumber);
+        var partNumberBo = _mapper.Map<PartNumberBo>(partNumber);
+
+        // Act
+        var actual = _service.UpdatePartNumber(partNumberBo);
+
+        // Assert
+        Assert.IsTrue(actual.Result);
     }
 }
