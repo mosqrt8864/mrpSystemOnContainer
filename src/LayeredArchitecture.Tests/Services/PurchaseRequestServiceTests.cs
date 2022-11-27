@@ -11,10 +11,11 @@ public class PurchaseRequestServiceTests
             cfg.CreateMap<PurchaseRequest,PurchaseRequestBo>();
             cfg.CreateMap<PurchaseRequestBo,PurchaseRequest>();
             cfg.CreateMap<PurchaseRequestItem,PurchaseRequestItemBo>();
+            cfg.CreateMap<PurchaseRequestItemBo,PurchaseRequestItem>();
         });
         _mapper = configuration.CreateMapper();
         _repository = new Mock<IPurchaseRequestRepository>();
-        _repository.Setup(x=>x.Add(It.IsAny<PurchaseRequest>()));
+        /*_repository.Setup(x=>x.Add(It.IsAny<PurchaseRequest>()));
         _repository.Setup(x=>x.SaveChangesAsync());
         _repository.Setup(x=>x.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new PurchaseRequest(){Id="Id",Description="Des",CreateAt=DateTime.Now,
@@ -25,46 +26,103 @@ public class PurchaseRequestServiceTests
                     new PurchaseRequest(){Id="Id1",Description="Des",CreateAt=DateTime.Now}});
         _repository.Setup(x => x.GetCountAsync())
                     .ReturnsAsync(2);
-        _repository.Setup(x=>x.Delete(It.IsAny<PurchaseRequest>()));
+        _repository.Setup(x=>x.Delete(It.IsAny<PurchaseRequest>()));*/
         _service = new PurchaseRequestService(_repository.Object,_mapper);
     }
 
     [Test]
     public void CreatePurchaseRequest()
     {
-        var result = _service.CreatePurchaseRequest(new PurchaseRequestBo());
-        Assert.IsTrue(result.Result);
+        // Arrange
+        var purchaseRequestItem = new List<PurchaseRequestItemBo>(){ 
+            new PurchaseRequestItemBo(){Id=1,PRId="Id",PNId="PNId",
+            Name="Name",Spec="Spec",Qty=100}};
+        var purchaseRequest = new PurchaseRequestBo(){Id="Id",Description="Desc",
+            CreateAt=DateTime.Now,PurchaseRequestItems=purchaseRequestItem};
+
+        // Act
+        var actual = _service.CreatePurchaseRequest(purchaseRequest);
+
+        // Assert
+        Assert.IsTrue(actual.Result);
     }
 
     [Test]
     public void GetPurchaseRequest()
     {
+        // Arrange
+        var purchaseRequestItem = new List<PurchaseRequestItem>(){ 
+            new PurchaseRequestItem(){Id=1,PRId="Id",PNId="PNId",
+            Name="Name",Spec="Spec",Qty=100}};
+        var purchaseRequest = new PurchaseRequest(){Id="Id",Description="Desc",
+            CreateAt=DateTime.Now,PurchaseRequestItems=purchaseRequestItem};
+        _repository.Setup(x=>x.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(purchaseRequest);
+        var expected = _mapper.Map<PurchaseRequestBo>(purchaseRequest);
+
+        // Act
         var id = "Id";
-        var result = _service.GetPurchaseRequest(id);
-        Assert.IsTrue(result.Result.Id == id);
-        Assert.IsTrue(result.Result.PurchaseRequestItems.Count == 1);
+        var actual = _service.GetPurchaseRequest(id);
+
+        // Assert
+        Assert.That(actual.Result,Is.EqualTo(expected));
     }
     [Test]
     public void GetPurchaseRequestList()
     {
+        // Arrange
+        var purchaseRequest = new PurchaseRequest(){Id="Id",Description="Desc",
+            CreateAt=DateTime.Now};
+        var purchaseRequestList = new List<PurchaseRequest>(){purchaseRequest};
+        _repository.Setup(x => x.GetListAsync(It.IsAny<int>(),It.IsAny<int>()))
+                    .ReturnsAsync(purchaseRequestList);
+        _repository.Setup(x => x.GetCountAsync())
+                    .ReturnsAsync(1);
+        var purchaseRequestListBo = _mapper.Map<List<PurchaseRequestBo>>(purchaseRequestList);
+        var expected = new PurchaseRequestListBo(){Count = 1,Items = purchaseRequestListBo};
+        // Act
         int pageSize = 1,pageNumber=10;
-        var result = _service.GetPurchaseRequestList(pageSize,pageNumber);
-        Assert.IsTrue(result.Result.Count == 2); 
+        var actual = _service.GetPurchaseRequestList(pageSize,pageNumber);
+
+        // Assert
+        Assert.That(actual.Result,Is.EqualTo(expected));
     }
     [Test]
     public void UpdatePurchaseRequest()
     {
-        var result = _service.UpdatePurchaseRequest(new PurchaseRequestBo(){
-                Id="Id",Description="Des1",CreateAt=DateTime.Now,
-                PurchaseRequestItems= new List<PurchaseRequestItemBo>(){new PurchaseRequestItemBo()
-                {Id=1,PRId="Id",PNId="Pants01",Name="Pants",Spec="Block",Qty=100}}});
-        Assert.IsTrue(result.Result);
+        // Arrange
+        var purchaseRequestItem = new List<PurchaseRequestItem>(){ 
+            new PurchaseRequestItem(){Id=1,PRId="Id",PNId="PNId",
+            Name="Name",Spec="Spec",Qty=100}};
+        var purchaseRequest = new PurchaseRequest(){Id="Id",Description="Desc",
+            CreateAt=DateTime.Now,PurchaseRequestItems=purchaseRequestItem};
+        _repository.Setup(x=>x.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(purchaseRequest);
+        var purchaseRequestBo = _mapper.Map<PurchaseRequestBo>(purchaseRequest);
+
+        // Act
+        var actual = _service.UpdatePurchaseRequest(purchaseRequestBo);
+
+        // Assert
+        Assert.IsTrue(actual.Result);
     }
     [Test]
     public void DeletePurchaseRequest()
     {
+        // Arrange
+        var purchaseRequestItem = new List<PurchaseRequestItem>(){ 
+            new PurchaseRequestItem(){Id=1,PRId="Id",PNId="PNId",
+            Name="Name",Spec="Spec",Qty=100}};
+        var purchaseRequest = new PurchaseRequest(){Id="Id",Description="Desc",
+            CreateAt=DateTime.Now,PurchaseRequestItems=purchaseRequestItem};
+        _repository.Setup(x=>x.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(purchaseRequest);
+
+        // Act
         var id = "Id";
-        var result = _service.DeletePurchaseRequest(id);
-        Assert.IsTrue(result.Result);
+        var actual = _service.DeletePurchaseRequest(id);
+
+        // Assert
+        Assert.IsTrue(actual.Result);
     }
 }
